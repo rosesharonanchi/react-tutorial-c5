@@ -43,16 +43,12 @@ func buildDBUrl() string {
 
 func main() {
 	godotenv.Load()
-	route := gin.Default()
+	route := gin.Default() 
 
 	// Configure Cors
 	route.Use(cors.New(cors.Config{
 	AllowOrigins: []string{
-		"http://localhost:3000",
-		"https://piggy-save-kappa.vercel.app",
-		"https://piggy-save-git-main-rosesharonanchis-projects.vercel.app",
-		"https://piggy-save-mly3fp5sy-rosesharonanchis-projects.vercel.app",
-		// ,
+		"*",
 	},
 	AllowMethods: []string{
 		"GET",
