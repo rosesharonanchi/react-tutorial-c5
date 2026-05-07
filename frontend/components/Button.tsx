@@ -5,6 +5,7 @@ export interface BtnProps {
 	onClick: () => void;
 	text: string;
 	variant?: "primary" | "secondary";
+	disabled?: boolean;
 }
 
 function Button({ onClick, text, variant = "primary" }: BtnProps) {

@@ -1,13 +1,14 @@
 import { GetTransactionsParamsType, TransactionType } from "@/types/interfaces";
 import axios from "axios";
-export interface GetTransactionsRes {
-	transactions: TransactionType[];
-	error: any;
-}
-const BASEURL = "http://localhost:8080";
+// export interface GetTransactionsRes {
+//   transactions: TransactionType[];
+//   error: any;
+// }
+import { BASE_URL } from "@/lib/constants";
 export const getAllTransactions = async (
 	query: GetTransactionsParamsType,
-): Promise<GetTransactionsRes> => {
+): Promise<TransactionType[]> => {
+
 	const queries = [];
 	if (query.size) {
 		queries.push("size=" + query.size);
@@ -18,23 +19,28 @@ export const getAllTransactions = async (
 	}
 
 	const url =
-		BASEURL +
-		"/api/v1/transactions" +
-		(queries.length > 0 ? "?" : "") +
-		queries.join("&");
+    BASE_URL +
+    "/transactions" +
+    (queries.length > 0 ? "?" : "") +
+    queries.join("&");
 
 	try {
-		const res = await axios.get(url);
+		const storedId = localStorage.getItem("piggy_user_id");
+    const userId = storedId === "undefined" || !storedId ? "" : storedId;
+		const res = await axios.get(url, {
+			headers: {
+				"X-User-ID": userId,
+			},
+		});
+		
 
-		return {
-			transactions: res.data as TransactionType[],
-			error: null,
-		};
-	} catch (error) {
-		return {
-			transactions: [],
-			error,
-		};
+		return  res.data || [];
+  }
+   
+    
+	catch (error) {
+    console.error("API Error:", error);
+		return [];
 	}
 };
 

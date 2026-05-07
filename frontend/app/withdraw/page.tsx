@@ -1,5 +1,5 @@
 "use client";
-import { saveTransaction } from "@/api/create-transaction";
+import { useSaveTransaction } from "@/hooks/useSaveTransactions";
 import Button from "@/components/Button";
 import Navbar from "@/components/navbar";
 import { TransactionType } from "@/types/interfaces";
@@ -9,20 +9,23 @@ import { toast, ToastContainer } from "react-toastify";
 function WithdrawPage() {
 	const [amount, setAmount] = useState("");
 	const [reason, setReason] = useState("");
-	const handleWithdraw = () => {
+	const {save, loading} = useSaveTransaction();
+	const handleWithdraw =  async () => {
 		console.log("Executed!");
 		const payload: TransactionType = {
-			amount,
+			amount: amount,
 			reason,
 			type: "withdrawal",
 			createdAt: Date(),
 		};
-		const res = saveTransaction(payload);
+		const res = await save(payload);
 
 		console.log("Response from fetch: ", res);
 
 		if (res.success) {
 			toast("Withdrawal successful! Redirecting...");
+			setAmount("");
+          setReason("");
 		} else {
 			toast.error("Failed to withdraw money! Try again.");
 		}
@@ -60,7 +63,7 @@ function WithdrawPage() {
 							/>
 						</div>
 						<div className="pt-2">
-							<Button text="Withdraw" onClick={handleWithdraw} />
+							<Button text="Withdraw" onClick={handleWithdraw} disabled={loading} />
 						</div>
 					</form>
 				</div>

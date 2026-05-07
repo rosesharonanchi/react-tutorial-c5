@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Transaction, { TransactionProps } from "./Transaction";
+import Transaction, {  TransactionProps } from "./Transaction";
 
 export interface TransactionsListProps {
 	transactions: TransactionProps[];

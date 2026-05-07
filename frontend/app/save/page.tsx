@@ -1,5 +1,5 @@
 "use client";
-import { saveTransaction } from "@/api/create-transaction";
+import { useSaveTransaction } from "@/hooks/useSaveTransactions";
 import Button from "@/components/Button";
 import Navbar from "@/components/navbar";
 import { TransactionType } from "@/types/interfaces";
@@ -9,21 +9,24 @@ import { toast, ToastContainer } from "react-toastify";
 function SavePage() {
 	const [amount, setAmount] = useState("");
 	const [reason, setReason] = useState("");
+	const { save, loading } = useSaveTransaction();
 	// Handle save transaction
-	const handleSave = () => {
+	const handleSave = async () => {
 		console.log("Executed!");
 		const payload: TransactionType = {
-			amount,
-			reason,
+			amount: amount,
+			reason: reason,
 			type: "saving",
 			createdAt: Date(),
 		};
-		const res = saveTransaction(payload);
+		const res = await save(payload);
 
 		console.log("Response from fetch: ", res);
 
 		if (res.success) {
 			toast("Saving action successful! Redirecting...");
+			setAmount("");
+		  setReason("");
 		} else {
 			toast.error("Failed to save money! Try again.");
 		}
@@ -63,7 +66,7 @@ function SavePage() {
 							/>
 						</div>
 						<div className="pt-2">
-							<Button text="Save" onClick={handleSave} />
+							<Button text="Save" onClick={handleSave} disabled={loading} />
 						</div>
 					</form>
 				</div>

@@ -1,5 +1,6 @@
 import { TransactionType } from "@/types/interfaces";
 import React from "react";
+export type { TransactionType as TransactionProps };
 
 function Transaction({ amount, type, reason, createdAt }: TransactionType) {
 	const isSaving = type === "saving";

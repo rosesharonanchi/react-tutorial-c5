@@ -12,7 +12,9 @@ import (
 	"github.com/rs/zerolog"
 
 	"piggy.com/internal/db/repo"
+	"piggy.com/internal/db/sqlc"
 	"piggy.com/internal/handlers"
+	"piggy.com/internal/middleware"
 	"piggy.com/internal/piggyservice"
 )
 
@@ -23,7 +25,7 @@ func main() {
 	route.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "X-User-ID"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
@@ -51,11 +53,25 @@ func main() {
 
 	// Initialize service
 	appService := piggyservice.NewService(repostory)
-	handlers := handlers.NewHandler(appService)
+	authService := piggyservice.NewAuthService(repostory.Do().(*sqlc.Queries))
+	handlers := handlers.NewHandler(appService, authService)
+  
 
+	v1 := route.Group("/api/v1")
 	// Define application endpoints
-	route.POST("/api/v1/transactions", handlers.CreateTransaction)
-	route.GET("/api/v1/transactions", handlers.GetTransactions) // Run application
+	route.POST("//api/v/1signup", handlers.SignUp)
+    route.POST("/api/v1/login", handlers.Login)
+
+	//protected routes
+	protected := v1.Group("/")
+	protected.Use(middleware.AuthMiddleware())
+    
+	
+	{
+		protected.GET("/transactions", handlers.GetTransactions) 
+		protected.POST("/transactions", handlers.CreateTransaction)
+		
+	}
 	fmt.Println("Server running on port 8080")
 	route.Run()
 }
