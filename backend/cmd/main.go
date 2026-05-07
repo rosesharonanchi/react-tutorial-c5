@@ -57,7 +57,7 @@ func main() {
 
 	// Configure Cors
 	route.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowOrigins:     []string{"http://localhost:3000", "https://piggy-save-kappa.vercel.app", "piggy-save-git-main-rosesharonanchis-projects.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "X-User-ID"},
 		ExposeHeaders:    []string{"Content-Length"},
