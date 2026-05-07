@@ -20,6 +20,7 @@ import (
 	"piggy.com/internal/middleware"
 	"piggy.com/internal/piggyservice"
 )
+
 // func init() {
 // 	net.DefaultResolver.PreferGo = true
 // }
@@ -57,13 +58,29 @@ func main() {
 
 	// Configure Cors
 	route.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "https://piggy-save-kappa.vercel.app", "piggy-save-git-main-rosesharonanchis-projects.vercel.app"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "X-User-ID"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
+	AllowOrigins: []string{
+		"http://localhost:3000",
+		"https://piggy-save-kappa.vercel.app",
+		"https://piggy-save-git-main-rosesharonanchis-projects.vercel.app",
+	},
+	AllowMethods: []string{
+		"GET",
+		"POST",
+		"PUT",
+		"DELETE",
+		"PATCH",
+		"OPTIONS",
+	},
+	AllowHeaders: []string{
+		"Origin",
+		"Content-Type",
+		"Authorization",
+		"X-User-ID",
+	},
+	ExposeHeaders:    []string{"Content-Length"},
+	AllowCredentials: true,
+	MaxAge:           12 * time.Hour,
+}))
 
 	// Healthcheck
 	route.GET("/api/v1/healthcheck", func(ctx *gin.Context) {
@@ -121,7 +138,7 @@ if err != nil {
 
 	v1 := route.Group("/api/v1")
 	// Define application endpoints
-	route.POST("//api/v/1signup", handlers.SignUp)
+	route.POST("/api/v1/signup", handlers.SignUp)
     route.POST("/api/v1/login", handlers.Login)
 
 	//protected routes
