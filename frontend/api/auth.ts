@@ -1,7 +1,7 @@
 import { BASE_URL } from "@/lib/constants";
 import axios from "axios";
 export const registerRequest = async (data: any) => {
-  const response = await axios.post(`${BASE_URL}api/v1/signup`, { 
+  const response = await axios.post(`${BASE_URL}/api/v1/signup`, { 
   
       name: data.name,
       email: data.email,
@@ -12,6 +12,6 @@ export const registerRequest = async (data: any) => {
 };
 
 export const loginRequest = async (data: any) => {
- const response = await axios.post(`${BASE_URL}api/v1/login`, data);
+ const response = await axios.post(`${BASE_URL}/api/v1/login`, data);
   return response.data;
 };

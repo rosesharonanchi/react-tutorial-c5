@@ -41,7 +41,6 @@ func buildDBUrl() string {
 	)
 }
 
-
 func main() {
 	godotenv.Load()
 	route := gin.Default()
