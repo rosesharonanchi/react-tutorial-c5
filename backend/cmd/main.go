@@ -25,29 +25,19 @@ import (
 // 	net.DefaultResolver.PreferGo = true
 // }
 func buildDBUrl() string {
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
-	sslmode := os.Getenv("DB_SSLMODE")
-
-	if sslmode == "" {
-		sslmode = "require" // Supabase MUST use SSL
-	}
-
-	if host == "" || port == "" || user == "" || dbname == "" {
-		panic("missing required database env vars")
-	}
-
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
-		user,
-		password,
-		host,
-		port,
-		dbname,
-		sslmode,
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_NAME"),
+		func() string {
+			if os.Getenv("DB_SSLMODE") == "" {
+				return "disable"
+			}
+			return os.Getenv("DB_SSLMODE")
+		}(),
 	)
 }
 
