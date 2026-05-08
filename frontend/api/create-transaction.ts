@@ -16,7 +16,7 @@ export const saveTransaction = async (
 
   const userId = localStorage.getItem("piggy_user_id");
   try {
-    const res = await axios.post(BASE_URL + "api/v1/transactions", payload, {
+    const res = await axios.post(BASE_URL + "/api/v1/transactions", payload, {
       headers: {
         "X-User-ID": userId || "",
       },

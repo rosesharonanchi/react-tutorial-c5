@@ -20,7 +20,7 @@ export const getAllTransactions = async (
 
 	const url =
     BASE_URL +
-    "api/v1/transactions" +
+    "/api/v1/transactions" +
     (queries.length > 0 ? "?" : "") +
     queries.join("&");
 
