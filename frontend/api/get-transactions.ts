@@ -39,7 +39,7 @@ export const getAllTransactions = async (
    
     
 	catch (error) {
-    console.error("API Error:", error);
+    console.log("API Error:", error);
 		return [];
 	}
 };

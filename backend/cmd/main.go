@@ -48,7 +48,7 @@ func main() {
 	// Configure Cors
 	route.Use(cors.New(cors.Config{
 	AllowOrigins: []string{
-		"*",
+		"*","http://localhost:3000",
 	},
 	AllowMethods: []string{
 		"GET",
@@ -127,6 +127,7 @@ if err != nil {
 	// Define application endpoints
 	route.POST("/api/v1/signup", handlers.SignUp)
     route.POST("/api/v1/login", handlers.Login)
+	route.GET("/api/v1/users/:id", handlers.GetUser)
 
 	//protected routes
 	protected := v1.Group("/")

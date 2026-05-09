@@ -4,21 +4,22 @@ import Navbar from "@/components/navbar";
 import TransactionsList from "@/components/TransactionsList";
 import Button from "@/components/Button";
 import { useGetTransactions } from "@/hooks/useFetchTransactions";
+import { useFetchUserStats } from "@/hooks/useFetchUser";
 
 export default function Home() {
   const {transactions , loading} = useGetTransactions({ size: 5 });
   // const { transactions, totals, loading } = useGetTransactions({ size: 5 });
-
+ const { stats, loading: statsLoading } = useFetchUserStats();
   return (
     <>
       <div className="flex flex-col flex-1 min-h-screen bg-slate-50 dark:bg-slate-900">
         <Navbar />
         <main className="flex-1 w-full max-w-3xl mx-auto px-6 py-10 flex flex-col gap-8">
           <section className="flex gap-4">
-            <StatsCard title="Total Savings" text="0.00CFA" />
+            <StatsCard title="Total Savings" text={`${stats.total_savings} FCFA`} />
             <StatsCard
               title="Total Withdrawals"
-              text={"0.00"}
+              text={`${stats.total_withdrawals} FCFA`}
             />
           </section>
           <section className="flex gap-3">

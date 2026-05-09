@@ -100,3 +100,11 @@ func sqlCToAppTransaction(t sqlc.Transaction) *models.Transaction {
 	}
 }
 
+
+func (s *Service) GetUserByID(ctx context.Context, id int32) (*sqlc.User, error) {
+    user, err := s.repo.Do().GetUserByID(ctx, id)
+    if err != nil {
+        return nil, err
+    }
+    return &user, nil
+}

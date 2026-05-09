@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import TransactionsList from "@/components/TransactionsList";
 import { useSearchParams } from "next/navigation";
 import { useGetTransactions } from "@/hooks/useFetchTransactions";
+import ProtectedLayout from "@/components/protectedLayout";
 
 export default function TransactionsClient() {
   const searchParams = useSearchParams();
@@ -18,7 +19,8 @@ export default function TransactionsClient() {
   });
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <ProtectedLayout>
+      <div className="flex flex-col min-h-screen">
       <Navbar />
 
       <main className="max-w-3xl mx-auto p-6">
@@ -31,5 +33,6 @@ export default function TransactionsClient() {
         )}
       </main>
     </div>
+    </ProtectedLayout>
   );
 }

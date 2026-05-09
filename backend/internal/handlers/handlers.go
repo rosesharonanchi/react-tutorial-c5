@@ -121,3 +121,23 @@ func (h *Handler) Login(c *gin.Context) {
         "user_id": user.ID,
     })
 }
+
+// 
+func (h *Handler) GetUser(c *gin.Context) {
+    idStr := c.Param("id")
+    val, err := strconv.ParseInt(idStr, 10, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid User ID"})
+        return
+    }
+    userID := int32(val)
+
+    // Call the new service method
+    user, err := h.service.GetUserByID(c.Request.Context(), userID)
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+        return
+    }
+
+    c.JSON(http.StatusOK, user)
+}
