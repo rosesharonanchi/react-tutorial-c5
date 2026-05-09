@@ -4,9 +4,12 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useSaveTransaction } from "@/hooks/useSaveTransactions";
+import Button from "@/components/Button";
 const SignupPage = () => {
   const {signup, isLoading} = useAuth()
   const router = useRouter();
+  const {loading , save} = useSaveTransaction()
  
   const [formData, setFormData] = useState({
     name: "",
@@ -109,11 +112,18 @@ const SignupPage = () => {
           </div>
 
           <button
+          disabled={loading}
             type="submit"
             className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold py-3 rounded-lg shadow-lg shadow-blue-900/20 transition-colors mt-2"
           >
-            Create Account
+            {loading ? "Signing In..." : "Create Account"}
           </button>
+          {/* <Button
+          
+            text={loading ? "Signing In..." : "Create Account"}
+            disabled={loading}
+            variant={primary}
+          /> */}
         </form>
 
         <div className="mt-8 text-center">

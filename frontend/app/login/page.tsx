@@ -3,12 +3,15 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import Button from "@/components/Button";
+import { useSaveTransaction } from "@/hooks/useSaveTransactions";
 const LoginPage = () => {
 
   const { login, isLoading } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { save, loading } = useSaveTransaction();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,11 +74,13 @@ const LoginPage = () => {
           </div>
 
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold py-3 rounded-lg shadow-lg shadow-blue-900/20 transition-colors"
           >
-            Sign In
+            {loading ? "Logining..." : "Login"}
           </button>
+          {/* <Button text={loading ? "Logining...":"Login"} disabled={loading} /> */}
         </form>
 
         <div className="mt-8 text-center">

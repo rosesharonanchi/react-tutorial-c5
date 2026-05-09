@@ -69,7 +69,7 @@ function WithdrawPage() {
               </div>
               <div className="pt-2">
                 <Button
-                  text="Withdraw"
+                  text={loading ? "Withdrawing..." : "Withdraw"}
                   onClick={handleWithdraw}
                   disabled={loading}
                 />

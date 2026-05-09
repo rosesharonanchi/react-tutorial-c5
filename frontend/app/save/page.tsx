@@ -70,7 +70,11 @@ function SavePage() {
                 />
               </div>
               <div className="pt-2">
-                <Button text="Save" onClick={handleSave} disabled={loading} />
+                <Button
+                  text={loading ? "Saving..." : "Save"}
+                  onClick={handleSave}
+                  disabled={loading}
+                />
               </div>
             </form>
           </div>
